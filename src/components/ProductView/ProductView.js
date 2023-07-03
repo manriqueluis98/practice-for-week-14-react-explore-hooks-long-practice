@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ProductListItem from "../ProductListItem";
 import ProductDetails from "../ProductDetails";
 import './ProductView.css'
@@ -11,6 +11,23 @@ function ProductView({ products }) {
   const [sideOpen, setSideOpen] = useState(true);
 
   const [selectedProduct, setSelectedProduct] = useState('')
+
+
+  useEffect(() => {
+    if(selectedProduct===''){
+      setSideOpen(true)
+    }else if(!selectedProduct){
+      setSideOpen(false)
+    }else{  
+      setSideOpen(true)
+    }
+  }, [selectedProduct])
+
+  useEffect(() => {
+    if(!sideOpen){
+      setSelectedProduct(null)
+    }
+  }, [sideOpen])
 
   return (
     <div className="product-view">
@@ -25,7 +42,7 @@ function ProductView({ products }) {
                 console.log('SELECT PRODUCT', item)
                 setSelectedProduct(item)
               }}
-              isSelected={item.id === selectedProduct.id ? true : false}
+              isSelected={selectedProduct ? item.id === selectedProduct.id ? true : false : false}
             />
           )}
         </div>
