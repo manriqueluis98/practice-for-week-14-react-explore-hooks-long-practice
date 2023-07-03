@@ -18,6 +18,7 @@ function ProductDetails({ product, visible }) {
       <p className="product-price">{product.price}</p>
       <p>Details</p>
       <ul>
+        {console.log(Object.values(product))}
         {product.details.map((item, index) => <li className="product-details-list-item" key={index}>
           {item.label}<br />
           <span className="product-info">{item.value}</span>

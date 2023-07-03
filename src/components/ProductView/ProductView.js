@@ -8,26 +8,26 @@ import { useState } from 'react';
 function ProductView({ products }) {
 
   // TODO: Replace with state variable
-  const [sideOpen, setSideOpen] = useState(true);
+  const [sideOpen, setSideOpen] = useState( localStorage.getItem('sideOpen') === 'false' ? false : true);
 
-  const [selectedProduct, setSelectedProduct] = useState('')
+  const [selectedProduct, setSelectedProduct] = useState( ''
+  )
 
+   // Open side panel when product is selected
+   useEffect(() => {
+    console.log(`selectedProduct CHANGED TO`, selectedProduct);
+      if (selectedProduct)
+          setSideOpen(true);
+  }, [selectedProduct]);
 
+  // Deselect product when side panel is closed
   useEffect(() => {
-    if(selectedProduct===''){
-      setSideOpen(true)
-    }else if(!selectedProduct){
-      setSideOpen(false)
-    }else{  
-      setSideOpen(true)
-    }
-  }, [selectedProduct])
-
-  useEffect(() => {
-    if(!sideOpen){
-      setSelectedProduct(null)
-    }
-  }, [sideOpen])
+      console.log(`sideOpen CHANGED TO`, sideOpen);
+      if (!sideOpen)
+          setSelectedProduct();
+      
+      localStorage.setItem('sideOpen', sideOpen)
+  }, [sideOpen]);
 
   return (
     <div className="product-view">
@@ -57,6 +57,7 @@ function ProductView({ products }) {
             {sideOpen ? '>' : '<'}
           </div>
         </div>
+        {console.log(`side panel is visible? ${sideOpen}`)}
         <ProductDetails visible={sideOpen} product={selectedProduct}/>
       </div>
     </div>
